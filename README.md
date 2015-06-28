@@ -1,5 +1,5 @@
-angular-c3
-==========
+angular-c3-directive
+====================
 
 Dead simple AngularJS directive for the C3.js chart library
 
@@ -10,7 +10,7 @@ Installation is performed using [Bower](http://bower.io). The only dependencies
 are [AngularJS][] and [C3.js][].
 
 ```
-bower install angular-c3
+bower install angular-c3-directive
 ```
 
 Usage
@@ -19,22 +19,33 @@ Usage
 In your HTML:
 
 ```html
-<script src="angular.js"></script>
-<script src="d3.js"></script> <!-- Required by C3.js -->
-<script src="c3.js"></script>
-<script src="angular-c3.js"></script>
+<html ng-app="myApp">
 
-...
+  ...
 
-<div c3="chart"></div>
+  <script src="angular.js"></script>
+  <script src="d3.js"></script> <!-- Required by C3.js -->
+  <script src="c3.js"></script>
+  <script src="angular-c3.js"></script>
+
+  ...
+
+  <div c3="chart"></div>
+
+  ...
+
+</html>
+```
+
+In your JavaScript, you need to inject `c3` as a dependency.
+
+```javascript
+angular.module('myApp', ['c3'])
 ```
 
 In your controller, the object passed into the `c3` attribute is the same as
 that passed into [`c3.generate()`][c3.generate], except without the `bindto`
 property.
-
-
-For example:
 
 ```javascript
 $scope.chart = {
