@@ -7,33 +7,32 @@ angular.module('c3', [])
   console.log('loading directive');
 
   function getUnload(prev, curr) {
-    var prevKeys;
-    if (prev && prev.columns && prev.columns.length) {
-      prevKeys = {};
-      prev.columns.forEach(function(data) {
-        prevKeys[data[0]] = true;
-      });
-    } else if (prev && prev.rows && prev.rows.length) {
-      prevKeys = {};
-      prev.rows[0].forEach(function(key) {
-        prevKeys[key] = true;
-      });
-    } else {
+    function getKeys(src) {
+      var keys;
+      if (src && src.columns && src.columns.length) {
+        keys = {};
+        src.columns.forEach(function(data) {
+          keys[data[0]] = true;
+        });
+        return keys;
+      } else if (src && src.rows && src.rows.length) {
+        keys = {};
+        src.rows[0].forEach(function(key) {
+          keys[key] = true;
+        });
+        return keys;
+      } else {
+        return false;
+      }
+    }
+
+    var prevKeys = getKeys(prev);
+    if (!prevKeys) {
       return false;
     }
 
-    var currKeys;
-    if (curr && curr.columns && curr.columns.length) {
-      currKeys = {};
-      curr.columns.forEach(function(data) {
-        currKeys[data[0]] = true;
-      });
-    } else if (curr && curr.rows && curr.rows.length) {
-      currKeys = {};
-      curr.rows[0].forEach(function(key) {
-        currKeys[key] = true;
-      });
-    } else {
+    var currKeys = getKeys(curr);
+    if (!currKeys) {
       return Object.keys(prevKeys);
     }
 
