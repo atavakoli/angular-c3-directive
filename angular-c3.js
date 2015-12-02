@@ -21,6 +21,14 @@ angular.module('c3', [])
           keys[key] = true;
         });
         return keys;
+      } else if (src && src.keys & src.keys.value && src.keys.value.length) {
+        keys = {};
+        if (src.keys.hasOwnProperty('x')) {
+          keys[src.keys.x] = true;
+        }
+        src.keys.value.forEach(function(key) {
+          keys[key] = true;
+        });
       } else {
         return false;
       }
@@ -52,6 +60,8 @@ angular.module('c3', [])
       ids = data.columns.map(function(d) { return d[0]; });
     } else if (data.rows) {
       ids = data.rows[0];
+    } else if (data.keys && data.keys.value) {
+      ids = data.keys.value;
     }
 
     var hidden = [];
