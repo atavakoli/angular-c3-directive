@@ -99,7 +99,7 @@ angular.module('c3', [])
         data.hide.push(id);
       }
     } else {
-      data.hide = ['id'];
+      data.hide = [id];
     }
   }
 
