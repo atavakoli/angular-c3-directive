@@ -59,6 +59,43 @@ $scope.chart = {
 ```
 
 The chart is updated whenever the object or any of its properties are modified.
+If the `chart.load()` API can be used, it will be (unless disabled; see Options
+below).
+
+The model can also be watched to catch interactions that change it (e.g.
+clicking legend items to show/hide data).
+
+```javascript
+$scope.$watchCollection('chart.data.hide', function(value, prevValue) {
+  console.log('data.hide changed!');
+});
+```
+
+### Options
+
+Advanced options can also be passed in via the `c3-options` attribute. This
+attribute is optional and specific to the operation
+
+```html
+<div c3="chart" c3-options="options"></div>
+```
+
+```javascript
+$scope.options = {
+  /* If true (default), detect changes to data and use the the load() API
+   * whenever possible to make updates; if false, regenerate the chart on every
+   * change.
+   *
+   * NOTE: because of the additional processing needed to detect loadable vs
+   *       unloadable changes, you may want to set this to false if you have a
+   *       high update rate or very large datasets.
+   */
+  useLoadApi: true
+};
+```
+
+Other options to come as needed.
+
 
 [AngularJS]: https://github.com/angular/bower-angular
 [C3.js]: https://github.com/masayuki0812/c3
