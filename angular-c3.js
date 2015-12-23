@@ -246,7 +246,11 @@ angular.module('c3', [])
           if (!chart) {
             chart = c3.generate(config);
           } else if (loadParam = getLoadParam(scope.options, prevValue, value)) {
-            angular.extend(loadParam, { done: doHide(chart, value.data) });
+            angular.extend(loadParam, {
+              done: function() {
+                doHide(chart, value.data);
+              }
+            });
             chart.load(loadParam);
           } else {
             chart.destroy();
