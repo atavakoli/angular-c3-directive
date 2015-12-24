@@ -1,6 +1,9 @@
 angular-c3-directive
 ====================
 
+[![Bower][bower-img]][bower]
+[![License][license-img]](LICENSE)
+
 Dead simple AngularJS directive for the C3.js chart library
 
 **[JSFiddle Demo][demo]**
@@ -169,3 +172,7 @@ Other options to come as needed.
 [chart.load]: http://c3js.org/reference.html#api-load
 [data.onclick]: http://c3js.org/reference.html#data-onclick
 [legend.item.onclick]: http://c3js.org/reference.html#legend-item-onclick
+
+[bower-img]: http://img.shields.io/bower/v/angular-c3-directive.svg
+[bower]: http://bower.io/search/?q=angular-c3-directive
+[license-img]: https://img.shields.io/badge/license-MIT-blue.svg
