@@ -3,6 +3,8 @@ angular-c3-directive
 
 Dead simple AngularJS directive for the C3.js chart library
 
+**[JSFiddle Demo][demo]**
+
 Installation
 ------------
 
@@ -160,6 +162,7 @@ $scope.options = {
 Other options to come as needed.
 
 
+[demo]: https://jsfiddle.net/alitavakoli/syw2rkpj/
 [AngularJS]: https://github.com/angular/bower-angular
 [C3.js]: https://github.com/masayuki0812/c3
 [c3.generate]: http://c3js.org/gettingstarted.html#generate
