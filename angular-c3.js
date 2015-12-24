@@ -108,7 +108,7 @@ angular.module('c3', [])
     chart.revert();
   }
 
-  function toggleData(id, data) {
+  function toggleHide(id, data) {
     // TODO: handle boolean data.hide
 
     if (data.hide) {
@@ -202,59 +202,80 @@ angular.module('c3', [])
     }
   }
 
+  function decoratedConfig(scope, elem, attrs) {
+    var config = angular.merge({}, scope.c3, {
+      data: {
+        onclick: function(d, elem) {
+          var event = this.internal.d3.event;
+          // use applyAsync to give c3 a chance to finish what it's doing;
+          // if we don't, strange things happen, as collections being iterated
+          // by d3 get modified mid-iteration
+          scope.$applyAsync(function() {
+            if (scope.dataClick) {
+              scope.dataClick({ datum: d, event: event });
+            }
+          });
+        }
+      },
+      legend: {
+        item: {
+          onclick: function(id) {
+            var event = this.d3.event;
+            // use applyAsync to give c3 a chance to finish what it's doing;
+            // if we don't, strange things happen, as collections being iterated
+            // by d3 get modified mid-iteration
+            scope.$applyAsync(function() {
+              function defaultClick() {
+                if (event.altKey) {
+                  hideAllBut(id, scope.c3.data);
+                } else {
+                  toggleHide(id, scope.c3.data);
+                }
+              }
+
+              if (angular.isDefined(attrs.c3LegendClick)) {
+                scope.legendClick({ id: id, event: event, default: defaultClick });
+              } else {
+                defaultClick();
+              }
+            });
+          }
+        }
+      }
+    });
+
+    // angular.merge doesn't work well with HTMLElement so we need to set it
+    // by reference ourselves.
+    config.bindto = elem;
+    return config;
+  }
+
   return {
     restrict: 'A',
     scope: {
       c3: '=c3',
       options: '=?c3Options',
+      dataClick: '&c3DataClick',
+      legendClick: '&c3LegendClick'
     },
-    link: function(scope, elem) {
+    link: function(scope, elem, attrs) {
       var chart;
+
       scope.$watch('c3', function(value, prevValue) {
         if (value) {
-          var config;
-          var legendOnclick;
-
-          if (value.legend && value.legend.item && value.legend.item.onclick) {
-            legendOnClick = value.legend.item.onclick;
-          }
-
-          var config = angular.extend({}, value, {
-            bindto: elem[0],
-            legend: {
-              item: {
-                onclick: function(id) {
-                  var event = this.d3.event;
-                  scope.$apply(function() {
-                    if (typeof legendOnclick === 'function') {
-                      legendOnclick(id);
-                    } else {
-                      if (event.altKey) {
-                        hideAllBut(id, value.data);
-                      } else {
-                        toggleData(id, value.data);
-                      }
-                    }
-                  });
-                }
-              }
-            }
-          });
-
           var loadParam;
-
           if (!chart) {
-            chart = c3.generate(config);
+            chart = c3.generate(decoratedConfig(scope, elem[0], attrs));
           } else if (loadParam = getLoadParam(scope.options, prevValue, value)) {
             angular.extend(loadParam, {
               done: function() {
-                doHide(chart, value.data);
+                doHide(chart, scope.c3.data);
               }
             });
             chart.load(loadParam);
           } else {
             chart.destroy();
-            chart = c3.generate(config);
+            chart = c3.generate(decoratedConfig(scope, elem[0], attrs));
           }
         } else {
           if (chart && typeof chart.destroy === 'function') {

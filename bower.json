@@ -13,8 +13,8 @@
     "Ali Tavakoli"
   ],
   "dependencies": {
-    "angular": ">=1.3.x",
-    "c3": ">=0.4.x"
+    "angular": "~1.4",
+    "c3": "0.4.10"
   },
   "repository": {
     "type": "git",
