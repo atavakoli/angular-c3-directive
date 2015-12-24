@@ -59,8 +59,8 @@ $scope.chart = {
 ```
 
 The chart is updated whenever the object or any of its properties are modified.
-If the `chart.load()` API can be used, it will be (unless disabled; see Options
-below).
+If the [`load` API][chart.load] can be used, it will be (unless disabled; see
+Options below).
 
 The model can also be watched to catch interactions that change it (e.g.
 clicking legend items to show/hide data).
@@ -163,5 +163,6 @@ Other options to come as needed.
 [AngularJS]: https://github.com/angular/bower-angular
 [C3.js]: https://github.com/masayuki0812/c3
 [c3.generate]: http://c3js.org/gettingstarted.html#generate
+[chart.load]: http://c3js.org/reference.html#api-load
 [data.onclick]: http://c3js.org/reference.html#data-onclick
 [legend.item.onclick]: http://c3js.org/reference.html#legend-item-onclick
